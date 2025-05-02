@@ -4,20 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class Goal extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'category',
         'description',
-        'latitude',
-        'longitude',
-        'progress',
         'deadline',
         'visibility',
+        'latitude',
+        'longitude',
         'status',
+        'progress',
         'current_level',
         'target_level',
         'start_date',
@@ -25,12 +28,14 @@ class Goal extends Model
     ];
 
     protected $casts = [
-        'progress' => 'integer',
+        'category' => 'string',
+        'visibility' => 'string',
+        'status' => 'string',
         'deadline' => 'date',
         'start_date' => 'date',
         'last_activity_at' => 'datetime',
         'latitude' => 'decimal:6',
-        'longitude' => 'decimal:6'
+        'longitude' => 'decimal:6',
     ];
 
     public function user()
@@ -38,44 +43,11 @@ class Goal extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function tasks()
+    public function focusAreas()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(FocusArea::class);
     }
-
-    public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
-
-    public function tests()
-    {
-        return $this->hasMany(Test::class);
-    }
-
-    public function achievements()
-    {
-        return $this->hasMany(Achievement::class);
-    }
-
-    public function updateProgress()
-    {
-        $totalTasks = $this->tasks()->count();
-        $completedTasks = $this->tasks()->where('status', 'completed')->count();
-        
-        if ($totalTasks > 0) {
-            $this->progress = round(($completedTasks / $totalTasks) * 100);
-            $this->save();
-        }
-    }
-
-    /**
-     * Get the users that belong to the goal.
-     */
-    public function users()
-    {
-        return $this->belongsToMany(User::class)
-            ->withPivot('status', 'progress', 'current_level', 'start_date', 'last_activity_at')
-            ->withTimestamps();
-    }
-} 
+    public function show($category)
+{
+      
+}}

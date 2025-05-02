@@ -17,10 +17,10 @@
                 <div class="p-6">
                     <h3 class="text-lg font-medium mb-4">Your Progress</h3>
                     <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
-                        <div class="bg-blue-600 h-4 rounded-full" style="width: {{ $goal->progress }}%"></div>
+                        <div class="bg-blue-600 h-4 rounded-full" style="width: {{ $goal->pivot->progress ?? 0 }}%"></div>
                     </div>
                     <div class="flex justify-between text-sm text-gray-600">
-                        <span>Current Level: {{ $goal->current_level ?? 'Not Started' }}</span>
+                        <span>Current Level: {{ $goal->pivot->current_level ?? 'Not Started' }}</span>
                         <span>Target Level: B2</span>
                     </div>
                 </div>
@@ -137,17 +137,41 @@
                             <div class="border rounded-lg p-4">
                                 <h4 class="font-medium mb-2">Online Courses</h4>
                                 <ul class="list-disc list-inside text-gray-600">
-                                    <li>British Council - LearnEnglish</li>
-                                    <li>BBC Learning English</li>
-                                    <li>Cambridge English Online</li>
+                                    <li>
+                                        <a href="https://learnenglish.britishcouncil.org/" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                            British Council - LearnEnglish
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.bbc.co.uk/learningenglish/" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                            BBC Learning English
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.cambridgeenglish.org/learning-english/" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                            Cambridge English Online
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="border rounded-lg p-4">
                                 <h4 class="font-medium mb-2">Practice Tests</h4>
                                 <ul class="list-disc list-inside text-gray-600">
-                                    <li>Cambridge B2 First Practice Tests</li>
-                                    <li>IELTS Practice Materials</li>
-                                    <li>TOEFL Sample Questions</li>
+                                    <li>
+                                        <a href="https://www.cambridgeenglish.org/exams-and-tests/first/practice-tests/" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                            Cambridge B2 First Practice Tests
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.ielts.org/for-test-takers/practice-tests" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                            IELTS Practice Materials
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.ets.org/toefl/test-takers/practice-tests.html" target="_blank" class="text-indigo-600 hover:text-indigo-900">
+                                            TOEFL Sample Questions
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -156,4 +180,4 @@
             </div>
         </div>
     </div>
-</x-app-layout> 
+</x-app-layout>

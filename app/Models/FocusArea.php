@@ -69,10 +69,12 @@ class FocusArea extends Model
     {
         $totalTasks = $this->tasks()->count();
         if ($totalTasks === 0) {
-            return 0;
+            $this->progress = 0;
+        } else {
+            $completedTasks = $this->tasks()->where('status', 'completed')->count();
+            $this->progress = round(($completedTasks / $totalTasks) * 100);
         }
-
-        $completedTasks = $this->tasks()->where('status', 'completed')->count();
-        return round(($completedTasks / $totalTasks) * 100);
+        $this->save();
+        return $this->progress;
     }
-} 
+}

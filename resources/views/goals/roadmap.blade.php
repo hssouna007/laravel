@@ -18,10 +18,10 @@
                     <div class="mb-8">
                         <h3 class="text-lg font-medium mb-4">Your Progress</h3>
                         <div class="w-full bg-gray-200 rounded-full h-4">
-                            <div class="bg-indigo-600 h-4 rounded-full" style="width: {{ auth()->user()->goals()->where('category', $category)->first()?->progress ?? 0 }}%"></div>
+                            <div class="bg-indigo-600 h-4 rounded-full" style="width: {{ auth()->user()->getCategoryProgress($category) }}%"></div>
                         </div>
                         <div class="mt-2 text-right">
-                            <span class="text-sm text-gray-600">{{ auth()->user()->goals()->where('category', $category)->first()?->progress ?? 0 }}% Complete</span>
+                            <span class="text-sm text-gray-600">{{ auth()->user()->getCategoryProgress($category) }}% Complete</span>
                         </div>
                     </div>
 
@@ -55,7 +55,7 @@
                             @foreach($roadmap['resources'] as $resource)
                                 <div class="p-4 bg-gray-50 rounded-lg">
                                     <h4 class="font-medium text-gray-900">{{ $resource['title'] }}</h4>
-                                    <a href="{{ $resource['url'] }}" class="text-indigo-600 hover:text-indigo-900 mt-2 inline-block">
+                                    <a href="{{ $category === 'english_b2' ? route('goals.show', 'english_b2') : $resource['url'] }}" class="text-indigo-600 hover:text-indigo-900 mt-2 inline-block">
                                         View Resource
                                     </a>
                                 </div>
@@ -66,4 +66,4 @@
             </div>
         </div>
     </div>
-</x-app-layout> 
+</x-app-layout>

@@ -20,121 +20,118 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Profile Completion Alert -->
-            @if(!auth()->user()->profile_completed)
-                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-yellow-700">
-                                Please complete your profile to get personalized goal recommendations and track your progress effectively.
-                                <a href="{{ route('profile.edit') }}" class="font-medium underline text-yellow-700 hover:text-yellow-600">
-                                    Complete Profile
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div x-data="{ 
-                        goals: [],
-                        loading: true,
-                        async init() {
-                            await this.loadGoals();
-                            this.loading = false;
-                        },
-                        async loadGoals() {
-                            try {
-                                const response = await fetch('/api/goals');
-                                this.goals = await response.json();
-                            } catch (error) {
-                                console.error('Error loading goals:', error);
-                            }
-                        }
-                    }">
-                        <!-- Loading State -->
-                        <div x-show="loading" class="text-center py-4">
-                            <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600"></div>
-                        </div>
-
-                        <!-- Goals Section -->
-                        <div x-show="!loading" class="space-y-6">
-                            <div class="flex justify-between items-center">
-                                <h3 class="text-lg font-medium">Your Goals</h3>
-                                <a href="{{ route('goals.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                                    Add New Goal
-                                </a>
-                            </div>
-
-                            <!-- Goal Cards -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <!-- Running Goal -->
-                                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                    <div class="p-6">
-                                        <h3 class="text-lg font-medium mb-2">Running</h3>
-                                        <p class="text-gray-600 mb-4">Improve your running performance and endurance</p>
-                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                                            <div class="bg-green-600 h-2.5 rounded-full" style="width: 45%"></div>
-                                        </div>
-                                        <a href="{{ route('goals.roadmap', 'running') }}" class="text-indigo-600 hover:text-indigo-900">
-                                            View Roadmap →
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- English B2 Goal -->
-                                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                    <div class="p-6">
-                                        <h3 class="text-lg font-medium mb-2">English B2</h3>
-                                        <p class="text-gray-600 mb-4">Achieve B2 level proficiency in English</p>
-                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 30%"></div>
-                                        </div>
-                                        <a href="{{ route('goals.roadmap', 'english_b2') }}" class="text-indigo-600 hover:text-indigo-900">
-                                            View Roadmap →
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- Trading Goal -->
-                                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                                    <div class="p-6">
-                                        <h3 class="text-lg font-medium mb-2">Trading</h3>
-                                        <p class="text-gray-600 mb-4">Master trading strategies and market analysis</p>
-                                        <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
-                                            <div class="bg-purple-600 h-2.5 rounded-full" style="width: 20%"></div>
-                                        </div>
-                                        <a href="{{ route('goals.roadmap', 'trading') }}" class="text-indigo-600 hover:text-indigo-900">
-                                            View Roadmap →
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Recent Activity -->
-                            <div class="mt-8">
-                                <h3 class="text-lg font-medium mb-4">Recent Activity</h3>
-                                <div class="bg-gray-50 rounded-lg p-4">
-                                    <template x-for="goal in goals" :key="goal.id">
-                                        <div class="flex items-center justify-between py-2 border-b border-gray-200 last:border-0">
-                                            <div>
-                                                <span class="font-medium" x-text="goal.category"></span>
-                                                <span class="text-gray-600" x-text="' - ' + goal.description"></span>
-                                            </div>
-                                            <span class="text-sm text-gray-500" x-text="new Date(goal.last_activity_at).toLocaleDateString()"></span>
-                                        </div>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-medium">Your Goals</h3>
+                        <a href="{{ route('goals.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-200 ease-in-out">
+                            Add New Goal
+                        </a>
                     </div>
+
+                    <!-- Debug: Display goals in a styled table -->
+                    <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow-inner">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">Debug: Goals Data</h4>
+                        @if(!isset($goals) || $goals->isEmpty())
+                            <div class="text-gray-500 italic">No goals available to display.</div>
+                        @else
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg">
+                                    <thead class="text-xs uppercase bg-gray-200 text-gray-600">
+                                        <tr>
+                                            <th class="px-4 py-2 border-b">ID</th>
+                                            <th class="px-4 py-2 border-b">User ID</th>
+                                            <th class="px-4 py-2 border-b">Category</th>
+                                            <th class="px-4 py-2 border-b">Description</th>
+                                            <th class="px-4 py-2 border-b">Progress</th>
+                                            <th class="px-4 py-2 border-b">Deadline</th>
+                                            <th class="px-4 py-2 border-b">Visibility</th>
+                                            <th class="px-4 py-2 border-b">Status</th>
+                                            <th class="px-4 py-2 border-b">Current Level</th>
+                                            <th class="px-4 py-2 border-b">Start Date</th>
+                                            <th class="px-4 py-2 border-b">Last Activity</th>
+                                            <th class="px-4 py-2 border-b">Created At</th>
+                                            <th class="px-4 py-2 border-b">Updated At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($goals as $goal)
+                                            <tr class="bg-white hover:bg-gray-50 transition-colors">
+                                                <td class="px-4 py-2 border-b">{{ $goal->id }}</td>
+                                                <td class="px-4 py-2 border-b">{{ $goal->user_id }}</td>
+                                                <td class="px-4 py-2 border-b capitalize">{{ $goal->category }}</td>
+                                                <td class="px-4 py-2 border-b">{{ $goal->description }}</td>
+                                                <td class="px-4 py-2 border-b">{{ $goal->progress }}%</td>
+                                                <td class="px-4 py-2 border-b">{{ $goal->deadline ? \Carbon\Carbon::parse($goal->deadline)->format('Y-m-d') : 'N/A' }}</td>
+                                                <td class="px-4 py-2 border-b capitalize">{{ $goal->visibility }}</td>
+                                                <td class="px-4 py-2 border-b capitalize">{{ $goal->status }}</td>
+                                                <td class="px-4 py-2 border-b capitalize">{{ $goal->current_level ?? 'N/A' }}</td>
+                                                <td class="px-4 py-2 border-b">{{ \Carbon\Carbon::parse($goal->start_date)->format('Y-m-d') }}</td>
+                                                <td class="px-4 py-2 border-b">{{ \Carbon\Carbon::parse($goal->last_activity_at)->format('Y-m-d H:i:s') }}</td>
+                                                <td class="px-4 py-2 border-b">{{ \Carbon\Carbon::parse($goal->created_at)->format('Y-m-d H:i:s') }}</td>
+                                                <td class="px-4 py-2 border-b">{{ \Carbon\Carbon::parse($goal->updated_at)->format('Y-m-d H:i:s') }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endif
+                    </div>
+
+                    @php
+                        $categoryDetails = [
+                            'running' => [
+                                'title' => 'Running',
+                                'description' => 'Improve your running performance and endurance',
+                                'color' => 'bg-green-600',
+                            ],
+                            'english_b2' => [
+                                'title' => 'English B2',
+                                'description' => 'Achieve B2 level proficiency in English',
+                                'color' => 'bg-blue-600',
+                            ],
+                            'trading' => [
+                                'title' => 'Trading',
+                                'description' => 'Master trading strategies and market analysis',
+                                'color' => 'bg-purple-600',
+                            ],
+                        ];
+                    @endphp
+
+                    @if(!isset($goals) || $goals->isEmpty())
+                        <div class="text-center py-8 text-gray-600 bg-gray-50 rounded-lg">
+                            You haven't added any goals yet. Start by adding a new goal!
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach($goals as $goal)
+                                @php
+                                    $categoryDetail = $categoryDetails[$goal->category] ?? $categoryDetails['running'];
+                                @endphp
+                                <div class="bg-white shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden border border-gray-200">
+                                    <div class="p-6">
+                                        <h3 class="text-lg font-semibold mb-3 {{ $categoryDetail['color'] }} text-white py-2 px-4 rounded-t-lg">
+                                            {{ $categoryDetail['title'] }}
+                                        </h3>
+                                        <p class="text-gray-700 mb-4 line-clamp-2">{{ $goal->description }}</p>
+                                        <div class="w-full bg-gray-200 rounded-full h-4 mb-4">
+                                            <div class="h-4 rounded-full {{ $categoryDetail['color'] }} text-xs text-white flex items-center justify-center transition-all duration-300" style="width: {{ $goal->progress }}%" title="{{ $goal->progress }}%">
+                                                {{ $goal->progress }}%
+                                            </div>
+                                        </div>
+                                        <div class="flex space-x-4 text-sm">
+                                            <a href="{{ route('goals.show', $goal->category) }}" class="text-indigo-600 hover:text-indigo-800 underline">
+                                                View Details
+                                            </a>
+                                            <a href="{{ route('goals.roadmap', $goal->category) }}" class="text-indigo-600 hover:text-indigo-800 underline">
+                                                View Roadmap
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

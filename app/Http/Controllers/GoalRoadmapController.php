@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Goal;
 
 class GoalRoadmapController extends Controller
 {
     public function show($category)
     {
-        // Check if the goal exists in the database
-        $goal = Goal::where('category', $category)
-            ->where('user_id', auth()->id())
+        // Fetch the user's goal using the relationship
+        $goal = auth()->user()->goals()
+            ->where('category', $category)
+            ->with('users') // Eager-load the pivot data
             ->first();
 
         if (!$goal) {
@@ -46,9 +46,9 @@ class GoalRoadmapController extends Controller
                     ['title' => 'Month 6: Exam Preparation', 'description' => 'Practice tests and time management.'],
                 ],
                 'resources' => [
-                    ['title' => 'Grammar Exercises', 'url' => '#'],
-                    ['title' => 'Vocabulary Lists', 'url' => '#'],
-                    ['title' => 'Practice Tests', 'url' => '#'],
+                    ['title' => 'Grammar Exercises', 'url' => route('goals.english_b2')],
+                    ['title' => 'Vocabulary Lists', 'url' => route('goals.english_b2')],
+                    ['title' => 'Practice Tests', 'url' => route('goals.english_b2')],
                 ]
             ],
             'trading' => [
@@ -79,56 +79,4 @@ class GoalRoadmapController extends Controller
             'goal' => $goal
         ]);
     }
-
-    public function englishB2()
-    {
-        $roadmap = [
-            'title' => 'English B2 Level Roadmap',
-            'steps' => [
-                [
-                    'title' => 'Grammar Fundamentals',
-                    'description' => 'Master essential grammar rules and structures'
-                ],
-                [
-                    'title' => 'Vocabulary Building',
-                    'description' => 'Expand your vocabulary to 4000+ words'
-                ],
-                [
-                    'title' => 'Listening Comprehension',
-                    'description' => 'Practice understanding native speakers at normal speed'
-                ],
-                [
-                    'title' => 'Speaking Practice',
-                    'description' => 'Develop fluency and confidence in speaking'
-                ],
-                [
-                    'title' => 'Reading Comprehension',
-                    'description' => 'Read and understand complex texts and articles'
-                ],
-                [
-                    'title' => 'Writing Skills',
-                    'description' => 'Write clear, detailed texts on various subjects'
-                ]
-            ],
-            'resources' => [
-                [
-                    'title' => 'Grammar Guide',
-                    'url' => 'https://www.englishgrammar.org/'
-                ],
-                [
-                    'title' => 'Vocabulary Lists',
-                    'url' => 'https://www.vocabulary.com/lists/'
-                ],
-                [
-                    'title' => 'Listening Practice',
-                    'url' => 'https://www.bbc.co.uk/learningenglish/'
-                ]
-            ]
-        ];
-
-        return view('goals.roadmap', [
-            'category' => 'english_b2',
-            'roadmap' => $roadmap
-        ]);
-    }
-} 
+}

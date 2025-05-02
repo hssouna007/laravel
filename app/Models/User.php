@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Goal; // Explicitly import Goal model
 
 class User extends Authenticatable
 {
@@ -49,10 +50,9 @@ class User extends Authenticatable
     /**
      * Get the goals for the user.
      */
+    
     public function goals()
     {
-        return $this->belongsToMany(Goal::class)
-            ->withPivot('status', 'progress', 'current_level', 'start_date', 'last_activity_at')
-            ->withTimestamps();
-    }
+       return $this->hasMany(Goal::class, 'user_id');
+   }
 }

@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+
+class UserController extends Controller
+{
+    public function profile()
+    {
+        if (!Auth::check()) {
+            Log::error('User not authenticated when accessing profile');
+            return redirect()->route('login')->with('error', 'You must be logged in to view your profile.');
+        }
+
+        $user = Auth::user();
+        Log::info('Profile accessed by user ID: ' . $user->id);
+
+        return view('profile.show', compact('user'));
+    }
+
+    public function edit()
+    {
+        if (!Auth::check()) {
+            Log::error('User not authenticated when accessing profile edit');
+            return redirect()->route('login')->with('error', 'You must be logged in to edit your profile.');
+        }
+
+        $user = Auth::user();
+        Log::info('Profile edit accessed by user ID: ' . $user->id);
+
+        return view('profile.edit', compact('user'));
+    }
+
+    public function update(Request $request)
+    {
+        if (!Auth::check()) {
+            Log::error('User not authenticated when updating profile');
+            return redirect()->route('login')->with('error', 'You must be logged in to update your profile.');
+        }
+
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        if ($validated['password']) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+        $user->save();
+
+        Log::info('Profile updated for user ID: ' . $user->id);
+
+        return redirect()->route('profile.show')->with('success', 'Profile updated successfully!');
+    }
+}
